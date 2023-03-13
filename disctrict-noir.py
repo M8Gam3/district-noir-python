@@ -111,8 +111,8 @@ def init_game():
     # Une fois la génération du paquet de cartes terminé, on le retourne
     return lst_cards
 # , random.randint(1,2)
-print(get_lst_cards_value(init_game()))
-print(len(init_game()))
+# print(get_lst_cards_value(init_game()))
+# print(len(init_game()))
 """Distribue les cartes pour chaque joueur et en mets 2 sur la table à la manche 1.
 Cette fonction aura pour but de distribuer 5 cartes à chaque joueur
 Au round 1, 2 cartes 
@@ -129,16 +129,27 @@ lst_game, lst_player_1, lst_player_2
         - lst_player_2 : contenant les 5 cartes du joueur 2
 """
 def to_deal(lst_game, round):
+    global lst_cards
     lst_player_1 = []; lst_player_2 = []
 
     # Distribuez 5 cartes à chaque joueur
-    
+    for i in range(5) :
+        lst_player_1.append(lst_cards[0])
+        lst_player_2.append(lst_cards[1])
+        lst_cards = lst_cards[1:]
+
     # On distribue 2 cartes sur la table uniquement pour la première manche
-    
+    if round == 1 :
+        for i in range(2) :
+            lst_game.append(lst_cards[0])
+            lst_cards = lst_cards[0:]
         # Distribuez 2 cartes face visible
         
+        #i'm here !
     
     return lst_game, lst_player_1, lst_player_2
+lst_cards = init_game()
+print(f"{to_deal([], 1)[0]}\n{to_deal([], 1)[1]}\n{to_deal([], 1)[2]}")
 
 """Affiche le jeu.
 Cette procédure affiche les cartes de la table ainsi que les cartes ramassées par les joueurs
@@ -376,6 +387,7 @@ players = {"lst_player_1" : [], "lst_player_2" : [], "lst_collecting_cards_1" : 
 
 #-------------------- Script principal ----------------
 # Initilisation d'une partie
+lst_cards = init_game()
 
 # Boucler pour lancer 4 manches
 
