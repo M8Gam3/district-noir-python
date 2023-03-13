@@ -27,6 +27,7 @@ def set_color(pstr, pcolor):
         return(f"\033[38;5;{num1}m{pstr}\033[0;0m")
     else:
         return(f"\033[38;5;{num1}m{pstr}\033[0;0m")
+# print(set_color('5', 206))
 
 """Retire tous les codes couleur.
 Permetter de retirer tous les codes couleur des valeurs d'une liste passé en paramètre
@@ -44,10 +45,12 @@ def get_lst_cards_value(lst_cards_with_color):
     lst_cards_value = []
     for card in lst_cards_with_color:
         value = ansi_escape.sub('', card).strip()
-        # if value.isdigit() or (value.startswith("-") and value[1:].isdigit()):
-        #     value = int(value)
+        if value.isdigit() or (value.startswith("-") and value[1:].isdigit()):
+            value = int(value)
         lst_cards_value.append(value)
     return lst_cards_value
+# test = [set_color('5', 32), set_color('8', 208), set_color('7', 206)]
+# print(get_lst_cards_value(test))
 
 """Initialisation de la partie.
 Cette fonction aura pour but de générer le paquets de cartes en fonction de sa composition dans le jeu :
@@ -66,28 +69,49 @@ beginner: int
 """
 def init_game():
     # tuple contenant la liste des cartes alliances du paquet
+    alliance = (2, 2, 2, 2, 3, 3, 4)
     
     # tuple contenant la liste des cartes trahison du paquet
+    trahison = (-1, -1, -1, -2, -2, -2, -2, -3, -3)
     
     # dictionnaire permettant de connaitre le code couleur de la carte en fonction de sa valeur
+    color_soutien = {
+        5 : 32,
+        6 : 206,
+        7 : 208,
+        8 : 220,
+    }
     
     lst_cards = []
 
     # Ajout des cartes 5, 6, 7 et 8
+    for i in range(5, 9) :
+        for x in range(i) :
+            lst_cards.append(set_color(i, color_soutien[i]))
     
     # Ajout des cartes "ville"
+    lst_cards.append("Docs")
+    lst_cards.append("Commissariat")
+    lst_cards.append("Mairie")
     
     # Ajout de cartes "alliance"
+    for i in alliance :
+        lst_cards.append(set_color(i, 28))
 
     # Ajout de cartes "trahison"
+    for i in trahison :
+        lst_cards.append(set_color(i, 196))
 
     # Mélangez les 45 cartes
+    random.shuffle(lst_cards)
 
     # Retirer 3 cartes
+    lst_cards = lst_cards[3:]
     
     # Une fois la génération du paquet de cartes terminé, on le retourne
     return lst_cards, random.randint(1,2)
-
+# print(get_lst_cards_value(init_game()))
+# print(len(init_game()))
 """Distribue les cartes pour chaque joueur et en mets 2 sur la table à la manche 1.
 Cette fonction aura pour but de distribuer 5 cartes à chaque joueur
 Au round 1, 2 cartes 

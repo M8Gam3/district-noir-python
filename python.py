@@ -6,7 +6,7 @@ token = 0 # choisi qui commenceras
 player_1_city = 0 # représente le nombre de villes en la posséssion du jouer 1
 player_2_city = 0 # représente le nombre de villes en la posséssion du jouer 2
 
-# innitialisation des tableaux et dicctionnaires
+# innitialisation des tableaux et dictionnaires
 
 list_card = [] # la liste des cartes (la pioche)
 board_card = [] # les cartes qui seront déposées sur le plateau
