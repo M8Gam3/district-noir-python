@@ -109,9 +109,10 @@ def init_game():
     lst_cards = lst_cards[3:]
     
     # Une fois la génération du paquet de cartes terminé, on le retourne
-    return lst_cards, random.randint(1,2)
-# print(get_lst_cards_value(init_game()))
-# print(len(init_game()))
+    return lst_cards
+# , random.randint(1,2)
+print(get_lst_cards_value(init_game()))
+print(len(init_game()))
 """Distribue les cartes pour chaque joueur et en mets 2 sur la table à la manche 1.
 Cette fonction aura pour but de distribuer 5 cartes à chaque joueur
 Au round 1, 2 cartes 
