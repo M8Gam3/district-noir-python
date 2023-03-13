@@ -322,6 +322,7 @@ Returns
     Retourn 1 si le joueur 1 remporte la partie et 2 si le joueur 2 remporte la partie
 """
 def get_winner(score_player_1, score_player_2, group_cards_1, group_cards_2):
+    return
     # Le score du joueur 1 est supérieur au score du joueur 2 => le joueur 1 gagne
 
     # Le score du joueur 1 est inférieur au score du joueur 2 => le joueur 2 gagne
@@ -339,8 +340,8 @@ num_player : int
     numéro du joueur vainqueur
 Returns
 -------
-Aucun
-"""
+Aucun"""
+
 def end_game(num_player):
     print(f"-----------Vainqueur : Joueur {num_player}------------")
     exit()
