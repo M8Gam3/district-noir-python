@@ -128,16 +128,29 @@ lst_game, lst_player_1, lst_player_2
         - lst_player_2 : contenant les 5 cartes du joueur 2
 """
 def to_deal(lst_game, round):
+    global lst_cards
     lst_player_1 = []; lst_player_2 = []
 
     # Distribuez 5 cartes à chaque joueur
-    
+    for i in range(5) :
+        lst_player_1.append(lst_cards[0])
+        lst_player_2.append(lst_cards[1])
+        lst_cards = lst_cards[1:]
+
     # On distribue 2 cartes sur la table uniquement pour la première manche
-    
-        # Distribuez 2 cartes face visible
+    if round == 1 :
         
+        # Distribuez 2 cartes face visible
+        for i in range(2) :
+            lst_game.append(lst_cards[0])
+            lst_cards = lst_cards[0:]
     
     return lst_game, lst_player_1, lst_player_2
+# lst_cards = init_game()
+# lst_game, lst_player_1, lst_player_2 = to_deal([], 1)
+# print(lst_cards)
+# print(to_deal([], 1))
+# print(f"{to_deal([], 1)[0]}\n{to_deal([], 1)[1]}\n{to_deal([], 1)[2]}")
 
 """Affiche le jeu.
 Cette procédure affiche les cartes de la table ainsi que les cartes ramassées par les joueurs
@@ -167,16 +180,23 @@ def display_game(round, lst_game, lst_collecting_cards_1, lst_collecting_cards_2
     print(f'--------- Manche {round} ----------')
 
     # Afficher les cartes sur la table
+    print(f"Plateau de jeu : {' '.join(lst_game)}")
 
     # Afficher les cartes ramassées par le joueur 1
+    print(f"Joueur 1 : {' '.join(lst_collecting_cards_1)}")
 
     # Afficher les cartes ramassées par le joueur 2
+    print(f"Joueur 1 : {' '.join(lst_collecting_cards_2)}")
 
     # Séparateur pour une meilleur visibilité
     print('\n------------------------------')
 
     # Afficher la main du joueur qui doit jouer
-    
+    print(f"cartes joueur {num_player} : {' '.join(lst_player)}")
+
+# lst_cards = init_game()
+# lst_game, lst_player_1, lst_player_2 = to_deal([], 1)
+# display_game(1, lst_game, [], [], 1, lst_player_1)
 
 """Lance un tour de jeu.
 Cette fonction aura pour but de lancer le tour d'un joueur, elle devra :
@@ -377,25 +397,35 @@ players = {"lst_player_1" : [], "lst_player_2" : [], "lst_collecting_cards_1" : 
 
 #-------------------- Script principal ----------------
 # Initilisation d'une partie
+lst_cards, token = init_game()
 
 # Boucler pour lancer 4 manches
+for i in range(4) :
 
     # Distribution des cartes pour chaque manche
+    lst_game, players["lst_player_1"], players["lst_player_2"] = to_deal(lst_game, i)
 
     # Boucler tant que les joueurs possèdent encore des cartes en main et qu'ils n'ont pas tous les 2 pris de cartes sur la table
+    while players["lst_player_1"] != [] and players["lst_player_1"] != [] and players["take_player_1"] == False and players["take_player_2"] == False :
         
         # Ordre des tours de jeu en fonction du joueur qui coommence la manche
-        
+        if token == 1 :
+            num_player = 1
+            lst_player = "lst_player_1"
+            token = 2
+        else :
+            num_player = 2
+            lst_player = "lst_player_2"
+            token = 1
 
         # Boucler pour les 2 joueurs
-
+        for i in range(2) :
             # Afficher le jeu
-            
+            display_game(i, lst_game, players["lst_collecting_cards_1"], players["lst_collecting_cards_2"], num_player, players[lst_player])
             # Faire jouer un joueur
-            
 
     # Remettre la drapeau take des players False
-
+    players["take_player_1"], players["take_player_2"] = False, False
 
 #-------------------- Fin de partie ----------------
 # regrouper les cartes des joueurs pour simplifier le calcul des points
@@ -403,3 +433,8 @@ players = {"lst_player_1" : [], "lst_player_2" : [], "lst_collecting_cards_1" : 
 # Calcul des points pour les 2 joueurs
 
 # en fonction du nombre de points des joueurs on renvoie le vainqueur ou on départage en cas d'égalité
+
+
+# lst_cards = init_game()
+# lst_game, lst_player_1, lst_player_2 = to_deal([], 1)
+# display_game(1, lst_game, [], [], 1, lst_player_1)
