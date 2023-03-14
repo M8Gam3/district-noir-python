@@ -172,7 +172,7 @@ Aucun
 """
 def display_game(round, lst_game, lst_collecting_cards_1, lst_collecting_cards_2, num_player = 0, lst_player = []):
     # Efface la console
-    # os.system('cls')
+    os.system('cls')
     print()
     
     # Séparateur pour une meilleur visibilité
