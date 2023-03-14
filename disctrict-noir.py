@@ -248,12 +248,14 @@ Aucun
 def check_three_cities(num_player, lst_collecting_cards):
     nb_cities = 0
     # On boucle sur les cartes ramassées du joueur
-    
-        # Si la carte a pour valeur (inutile de retirer le code couleur car les cartes cités n'en possède pas) le nom d'une des 3 cités
-        
-            # si c'est le cas on incrémente un compteur
+    for i in lst_collecting_cards :
+        if i == "Mairie" or i == "Commissariat" or i == "Docs" :   # Si la carte a pour valeur (inutile de retirer le code couleur car les cartes cités n'en possède pas) le nom d'une des 3 cités
+            nb_cities += 1              # si c'est le cas on incrémente un compteur
+        elif nb_cities == 3 :
+            end_game() # Si 3 cartes cités sont comptés on appelle la fonction end_game
 
-    # Si 3 cartes cités sont comptés on appelle la fonction end_game
+
+    
     
 
 """Regroupe et Compte les cartes ramassées par un joueur.
