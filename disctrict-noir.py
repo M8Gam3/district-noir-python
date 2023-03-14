@@ -457,12 +457,9 @@ for x in range(1, 5) :
 print('fin')
 #-------------------- Fin de partie ----------------
 # regrouper les cartes des joueurs pour simplifier le calcul des points
-dic_player_1 = get_group_cards(players["lst_collecting_cards_1"])
-dic_player_2 = get_group_cards(players["lst_collecting_cards_2"])
+group_cards_1 = get_group_cards(players["lst_collecting_cards_1"])
+group_cards_2 = get_group_cards(players["lst_collecting_cards_2"])
 # Calcul des points pour les 2 joueurs
-score_player_1, score_player_2 = get_scoring(dic_player_1, dic_player_2)
+score_player_1, score_player_2 = get_scoring(group_cards_1, group_cards_2)
 # en fonction du nombre de points des joueurs on renvoie le vainqueur ou on départage en cas d'égalité
-
-# lst_cards = init_game()
-# lst_game, lst_player_1, lst_player_2 = to_deal([], 1)
-# display_game(1, lst_game, [], [], 1, lst_player_1)
+get_winner(score_player_1, score_player_2, group_cards_1, group_cards_2)
