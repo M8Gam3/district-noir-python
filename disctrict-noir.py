@@ -135,16 +135,14 @@ def to_deal(lst_game, round):
     for i in range(5) :
         lst_player_1.append(lst_cards[0])
         lst_player_2.append(lst_cards[1])
-        lst_cards = lst_cards[1:]
+        lst_cards = lst_cards[2:]
 
     # On distribue 2 cartes sur la table uniquement pour la première manche
     if round == 1 :
-        
         # Distribuez 2 cartes face visible
-        for i in range(2) :
-            lst_game.append(lst_cards[0])
-            lst_cards = lst_cards[0:]
-    
+        lst_game = lst_cards[:2]
+        lst_cards = lst_cards[2:]
+    print(lst_game)
     return lst_game, lst_player_1, lst_player_2
 # lst_cards = init_game()
 # lst_game, lst_player_1, lst_player_2 = to_deal([], 1)
@@ -174,7 +172,8 @@ Aucun
 """
 def display_game(round, lst_game, lst_collecting_cards_1, lst_collecting_cards_2, num_player = 0, lst_player = []):
     # Efface la console
-    os.system('cls')
+    # os.system('cls')
+    print()
     
     # Séparateur pour une meilleur visibilité
     print(f'--------- Manche {round} ----------')
@@ -186,7 +185,7 @@ def display_game(round, lst_game, lst_collecting_cards_1, lst_collecting_cards_2
     print(f"Joueur 1 : {' '.join(lst_collecting_cards_1)}")
 
     # Afficher les cartes ramassées par le joueur 2
-    print(f"Joueur 1 : {' '.join(lst_collecting_cards_2)}")
+    print(f"Joueur 2 : {' '.join(lst_collecting_cards_2)}")
 
     # Séparateur pour une meilleur visibilité
     print('\n------------------------------')
@@ -231,23 +230,32 @@ def to_play(lst_game, num_player, lst_player, lst_collecting_cards, player_take)
     # Tant que la saisie diffère d'une carte de la main ou qu'elle est différente de 0, on refait saisir le joueur
     while True:
         # Demander au joueur de saisie la valeur d'une carte de sa main ou de saisir la chaine "take" s'il souhaite prendre et qu'il n'a pas encore pris durant cette manche
-        action = input("entrez la valeur de la carte que vous voulez jouer ou 'take' pour prendre les cartes du plateau")
+        action = input("entrez la valeur de la carte que vous voulez jouer ou 'take' pour prendre les cartes du plateau : ")
         # Si le joueur décide de joueur une carte de sa main
+        try :
+            action = int(action)
+        except ValueError :
+            tbstz = 0
         if action in lst_player_colorless : 
             # on retire la carte de sa main et on l'ajouter aux cartes de la table
-            lst_player.remove(action)
+            lst_game.append(lst_player[lst_player_colorless.index(action)])
+            lst_player.pop(lst_player_colorless.index(action))
             break
         # Sinon si le joueur décide de prendre les cartes de la table s'il n'a pas déjà pris durant cette manche et qu'il y a au moins 1 carte sur la table
-        
+        elif action == "take" and player_take == False:
             # Si le jeu contient moins de 5 cartes, le joueur ramasse toutes les cartes de la table
-
+            if len(lst_game) < 5 :
+                lst_collecting_cards += lst_game
+                lst_game = []
                 # On ajoute les cartes prise à ses carte ramassées et on les retire de la table de jeu
-                
+            else :
+                lst_collecting_cards += lst_game[-5:]
+                lst_game = lst_game[:-5]
             # On vérifie si le joueur possède 3 carte cité
-            
+            check_three_cities(num_player, lst_collecting_cards)
             
             # Ne pas oublié de passer le drapeau permettant de savoir s'il a pris durant cette manche à True
-            
+            player_take = True
             break
 
     return lst_game, lst_player, lst_collecting_cards, player_take
@@ -271,8 +279,8 @@ def check_three_cities(num_player, lst_collecting_cards):
     for i in lst_collecting_cards :
         if i == "Mairie" or i == "Commissariat" or i == "Docs" :   # Si la carte a pour valeur (inutile de retirer le code couleur car les cartes cités n'en possède pas) le nom d'une des 3 cités
             nb_cities += 1              # si c'est le cas on incrémente un compteur
-        elif nb_cities == 3 :
-            end_game() # Si 3 cartes cités sont comptés on appelle la fonction end_game
+    if nb_cities == 3 :
+        end_game(num_player) # Si 3 cartes cités sont comptés on appelle la fonction end_game
 
 
     
@@ -398,45 +406,39 @@ players["lst_collecting_cards_1"]
 #-------------------- Script principal ----------------
 # Initilisation d'une partie
 lst_cards, token = init_game()
+lst_game = []
 
 # Boucler pour lancer 4 manches
-for i in range(4) :
+for x in range(1, 4) :
 
     # Distribution des cartes pour chaque manche
-    lst_game, players["lst_player_1"], players["lst_player_2"] = to_deal(lst_game, i)
+    lst_game, players["lst_player_1"], players["lst_player_2"] = to_deal(lst_game, x)
 
     # Boucler tant que les joueurs possèdent encore des cartes en main et qu'ils n'ont pas tous les 2 pris de cartes sur la table
-    while players["lst_player_1"] != [] and players["lst_player_1"] != [] and players["take_player_1"] == False and players["take_player_2"] == False :
+    while (players["lst_player_1"] == [] and players["lst_player_2"] == [] and players["take_player_1"] != False and players["take_player_2"] != False) == False :
         
         # Ordre des tours de jeu en fonction du joueur qui coommence la manche
-        if token == 1 :
-            num_player = 1
-            lst_player = ["lst_player_1", "lst_collecting_cards_1", "take_player_1"]
-            token = 2
-        else :
-            num_player = 2
-            lst_player = ["lst_player_2", "lst_collecting_cards_2", "take_player_2"]
-            token = 1
 
         # Boucler pour les 2 joueurs
         for i in range(2) :
-            # Afficher le jeu
-            display_game(i, lst_game, players["lst_collecting_cards_1"], players["lst_collecting_cards_2"], num_player, players[lst_player[0]])
-            # Faire jouer un joueur
-            to_play(lst_game, num_player, players[lst_player[0]], players[lst_player[1]], players[lst_player[2]])
             
-        if token == 1 :
-            num_player = 1
-            lst_player = ["lst_player_1", "lst_collecting_cards_1", "take_player_1"]
-            token = 2
-        else :
-            num_player = 2
-            lst_player = ["lst_player_2", "lst_collecting_cards_2", "take_player_2"]
-            token = 1
+            if token == 1 :
+                num_player = 1
+                lst_player = ["lst_player_1", "lst_collecting_cards_1", "take_player_1"]
+                token = 2
+            else :
+                num_player = 2
+                lst_player = ["lst_player_2", "lst_collecting_cards_2", "take_player_2"]
+                token = 1
+            
+            # Afficher le jeu
+            display_game(x, lst_game, players["lst_collecting_cards_1"], players["lst_collecting_cards_2"], num_player, players[lst_player[0]])
+            # Faire jouer un joueur
+            lst_game, players[lst_player[0]], players[lst_player[1]], players[lst_player[2]] = to_play(lst_game, num_player, players[lst_player[0]], players[lst_player[1]], players[lst_player[2]])
 
     # Remettre la drapeau take des players False
     players["take_player_1"], players["take_player_2"] = False, False
-
+print('fin')
 #-------------------- Fin de partie ----------------
 # regrouper les cartes des joueurs pour simplifier le calcul des points
 
