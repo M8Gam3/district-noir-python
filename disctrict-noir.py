@@ -227,15 +227,15 @@ lst_game, lst_player, lst_collecting_cards, take
 def to_play(lst_game, num_player, lst_player, lst_collecting_cards, player_take):
     
     # On converti la liste des cartes de la main du joueur en liste extrayant que la valeur des cartes
-    
+    lst_player_colorless = get_lst_cards_value(lst_player)
     # Tant que la saisie diffère d'une carte de la main ou qu'elle est différente de 0, on refait saisir le joueur
     while True:
         # Demander au joueur de saisie la valeur d'une carte de sa main ou de saisir la chaine "take" s'il souhaite prendre et qu'il n'a pas encore pris durant cette manche
-        
+        action = input("entrez la valeur de la carte que vous voulez jouer ou 'take' pour prendre les cartes du plateau")
         # Si le joueur décide de joueur une carte de sa main
-
+        if action in lst_player_colorless : 
             # on retire la carte de sa main et on l'ajouter aux cartes de la table
-            
+            lst_player.remove(action)
             break
         # Sinon si le joueur décide de prendre les cartes de la table s'il n'a pas déjà pris durant cette manche et qu'il y a au moins 1 carte sur la table
         
@@ -392,7 +392,7 @@ def end_game(num_player):
 
 #-------------------- Initialisation de mon dictionnaire players ----------------
 players = {"lst_player_1" : [], "lst_player_2" : [], "lst_collecting_cards_1" : [], "lst_collecting_cards_2" : [], "take_player_1": False, "take_player_2": False}
-
+players["lst_collecting_cards_1"]
 #-------------------- Script principal ----------------
 # Initilisation d'une partie
 lst_cards, token = init_game()
@@ -409,18 +409,28 @@ for i in range(4) :
         # Ordre des tours de jeu en fonction du joueur qui coommence la manche
         if token == 1 :
             num_player = 1
-            lst_player = "lst_player_1"
+            lst_player = ["lst_player_1", "lst_collecting_cards_1", "take_player_1"]
             token = 2
         else :
             num_player = 2
-            lst_player = "lst_player_2"
+            lst_player = ["lst_player_2", "lst_collecting_cards_2", "take_player_2"]
             token = 1
 
         # Boucler pour les 2 joueurs
         for i in range(2) :
             # Afficher le jeu
-            display_game(i, lst_game, players["lst_collecting_cards_1"], players["lst_collecting_cards_2"], num_player, players[lst_player])
+            display_game(i, lst_game, players["lst_collecting_cards_1"], players["lst_collecting_cards_2"], num_player, players[lst_player[0]])
             # Faire jouer un joueur
+            to_play(lst_game, num_player, players[lst_player[0]], players[lst_player[1]], players[lst_player[2]])
+            
+        if token == 1 :
+            num_player = 1
+            lst_player = ["lst_player_1", "lst_collecting_cards_1", "take_player_1"]
+            token = 2
+        else :
+            num_player = 2
+            lst_player = ["lst_player_2", "lst_collecting_cards_2", "take_player_2"]
+            token = 1
 
     # Remettre la drapeau take des players False
     players["take_player_1"], players["take_player_2"] = False, False
