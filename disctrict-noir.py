@@ -292,14 +292,20 @@ lst_group_cards : dictionnaire
 """    
 def get_group_cards(lst_collecting_cards):
     lst_group_cards = {}
+
     # Avant de compter les cartes, on retire le code couleur des cartes
+    lst_collecting_cards = get_lst_cards_value(lst_collecting_cards)
     
     # On boucle sur toutes les cartes
-    
+
+    for i in lst_collecting_cards:
         # Si les cartes sont différentes des cartes cités on les ajoute au dictionnaire
-        
-            # Si la valeur de la carte a déjà été inséré dans le dictionnaire, on incrémente sa quantité
-            
+        if i != "Mairie" and i != "Docs" and i != "Commissariat":
+            lst_group_cards.append(lst_collecting_cards)
+            if i in lst_group_cards :
+                # Si la valeur de la carte a déjà été inséré dans le dictionnaire, on incrémente sa quantité
+                lst_group_cards[lst_collecting_cards] += 1
+            else : lst_group_cards[i] = 1
             # Sinon on l'ajoute dans le dictionnaire
             
     return lst_group_cards
