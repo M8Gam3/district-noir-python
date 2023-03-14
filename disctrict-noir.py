@@ -417,14 +417,13 @@ for i in range(4) :
             token = 1
 
         # Boucler pour les 2 joueurs
-
+        for i in range(2) :
             # Afficher le jeu
             display_game(i, lst_game, players["lst_collecting_cards_1"], players["lst_collecting_cards_2"], num_player, players[lst_player])
             # Faire jouer un joueur
-            
 
     # Remettre la drapeau take des players False
-
+    players["take_player_1"], players["take_player_2"] = False, False
 
 #-------------------- Fin de partie ----------------
 # regrouper les cartes des joueurs pour simplifier le calcul des points
