@@ -283,9 +283,6 @@ def check_three_cities(num_player, lst_collecting_cards):
         end_game(num_player) # Si 3 cartes cités sont comptés on appelle la fonction end_game
 
 
-    
-    
-
 """Regroupe et Compte les cartes ramassées par un joueur.
 Cette fonction aura pour but de regrouper les cartes de même valeur et de les compter. Ce qui simplifira le comptage des points.
 Elle exclura également les cartes cités car elle ne sont pas nécessaire au comptage des points
@@ -409,7 +406,7 @@ lst_cards, token = init_game()
 lst_game = []
 
 # Boucler pour lancer 4 manches
-for x in range(1, 4) :
+for x in range(1, 5) :
 
     # Distribution des cartes pour chaque manche
     lst_game, players["lst_player_1"], players["lst_player_2"] = to_deal(lst_game, x)
