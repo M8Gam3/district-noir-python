@@ -381,15 +381,23 @@ Returns
     Retourn 1 si le joueur 1 remporte la partie et 2 si le joueur 2 remporte la partie
 """
 def get_winner(score_player_1, score_player_2, group_cards_1, group_cards_2):
-    return
     # Le score du joueur 1 est supérieur au score du joueur 2 => le joueur 1 gagne
-
+    if score_player_1 > score_player_2 :
+        end_game(1)
     # Le score du joueur 1 est inférieur au score du joueur 2 => le joueur 2 gagne
-
+    elif score_player_1 < score_player_2 :
+        end_game(2)
     # Sinon égalité
-
+    else :
         # En cas d'égalité, le joueur ayant le plus de soutien de valeur 8 l'emporte, puis en cas de nouvelle égalité le joueur ayant le plus de soutien de valeur 7 l'emporte etc.
-        
+        for i in range(8,5) :
+            if group_cards_1[i] > group_cards_2[i] :
+                end_game(1)
+                break
+            elif group_cards_1[i] < group_cards_2[i] :
+                end_game(2)
+                break
+        end_game(3)
 
 """Affiche le vainqueur
 Concatène "Vainqueur : Joueur"  et le numéro du joueur vainqueur pour l'afficher et quitte le jeu
@@ -402,7 +410,10 @@ Returns
 Aucun"""
 
 def end_game(num_player):
-    print(f"-----------Vainqueur : Joueur {num_player}------------")
+    if num_player == 1 or num_player == 2 :
+        print(f"-----------Vainqueur : Joueur {num_player}------------")
+    else :
+        print(f"-----------------égalité-------------------")
     exit()
 
 #-------------------- Initialisation de mon dictionnaire players ----------------
@@ -446,11 +457,11 @@ for x in range(1, 5) :
 print('fin')
 #-------------------- Fin de partie ----------------
 # regrouper les cartes des joueurs pour simplifier le calcul des points
-
+dic_player_1 = get_group_cards(players["lst_collecting_cards_1"])
+dic_player_2 = get_group_cards(players["lst_collecting_cards_2"])
 # Calcul des points pour les 2 joueurs
-
+score_player_1, score_player_2 = get_scoring(dic_player_1, dic_player_2)
 # en fonction du nombre de points des joueurs on renvoie le vainqueur ou on départage en cas d'égalité
-
 
 # lst_cards = init_game()
 # lst_game, lst_player_1, lst_player_2 = to_deal([], 1)
