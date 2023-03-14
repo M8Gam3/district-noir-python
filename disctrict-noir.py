@@ -181,16 +181,23 @@ def display_game(round, lst_game, lst_collecting_cards_1, lst_collecting_cards_2
     print(f'--------- Manche {round} ----------')
 
     # Afficher les cartes sur la table
+    print(f"Plateau de jeu : {' '.join(lst_game)}")
 
     # Afficher les cartes ramassées par le joueur 1
+    print(f"Joueur 1 : {' '.join(lst_collecting_cards_1)}")
 
     # Afficher les cartes ramassées par le joueur 2
+    print(f"Joueur 1 : {' '.join(lst_collecting_cards_2)}")
 
     # Séparateur pour une meilleur visibilité
     print('\n------------------------------')
 
     # Afficher la main du joueur qui doit jouer
-    
+    print(f"cartes joueur {num_player} : {' '.join(lst_player)}")
+
+# lst_cards = init_game()
+# lst_game, lst_player_1, lst_player_2 = to_deal([], 1)
+# display_game(1, lst_game, [], [], 1, lst_player_1)
 
 """Lance un tour de jeu.
 Cette fonction aura pour but de lancer le tour d'un joueur, elle devra :
