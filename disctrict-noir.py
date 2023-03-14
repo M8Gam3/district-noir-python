@@ -140,16 +140,18 @@ def to_deal(lst_game, round):
 
     # On distribue 2 cartes sur la table uniquement pour la première manche
     if round == 1 :
+        
+        # Distribuez 2 cartes face visible
         for i in range(2) :
             lst_game.append(lst_cards[0])
             lst_cards = lst_cards[0:]
-        # Distribuez 2 cartes face visible
-        
-        #i'm here !
     
     return lst_game, lst_player_1, lst_player_2
-lst_cards = init_game()
-print(f"{to_deal([], 1)[0]}\n{to_deal([], 1)[1]}\n{to_deal([], 1)[2]}")
+# lst_cards = init_game()
+# lst_game, lst_player_1, lst_player_2 = to_deal([], 1)
+# print(lst_cards)
+# print(to_deal([], 1))
+# print(f"{to_deal([], 1)[0]}\n{to_deal([], 1)[1]}\n{to_deal([], 1)[2]}")
 
 """Affiche le jeu.
 Cette procédure affiche les cartes de la table ainsi que les cartes ramassées par les joueurs
