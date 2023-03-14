@@ -109,8 +109,7 @@ def init_game():
     lst_cards = lst_cards[3:]
     
     # Une fois la génération du paquet de cartes terminé, on le retourne
-    return lst_cards
-# , random.randint(1,2)
+    return lst_cards, random.randint(1,2)
 # print(get_lst_cards_value(init_game()))
 # print(len(init_game()))
 """Distribue les cartes pour chaque joueur et en mets 2 sur la table à la manche 1.
@@ -396,21 +395,31 @@ players = {"lst_player_1" : [], "lst_player_2" : [], "lst_collecting_cards_1" : 
 
 #-------------------- Script principal ----------------
 # Initilisation d'une partie
-lst_cards = init_game()
+lst_cards, token = init_game()
 
 # Boucler pour lancer 4 manches
+for i in range(4) :
 
     # Distribution des cartes pour chaque manche
+    lst_game, players["lst_player_1"], players["lst_player_2"] = to_deal(lst_game, i)
 
     # Boucler tant que les joueurs possèdent encore des cartes en main et qu'ils n'ont pas tous les 2 pris de cartes sur la table
+    while players["lst_player_1"] != [] and players["lst_player_1"] != [] and players["take_player_1"] == False and players["take_player_2"] == False :
         
         # Ordre des tours de jeu en fonction du joueur qui coommence la manche
-        
+        if token == 1 :
+            num_player = 1
+            lst_player = "lst_player_1"
+            token = 2
+        else :
+            num_player = 2
+            lst_player = "lst_player_2"
+            token = 1
 
         # Boucler pour les 2 joueurs
 
             # Afficher le jeu
-            
+            display_game(i, lst_game, players["lst_collecting_cards_1"], players["lst_collecting_cards_2"], num_player, players[lst_player])
             # Faire jouer un joueur
             
 
@@ -423,3 +432,8 @@ lst_cards = init_game()
 # Calcul des points pour les 2 joueurs
 
 # en fonction du nombre de points des joueurs on renvoie le vainqueur ou on départage en cas d'égalité
+
+
+# lst_cards = init_game()
+# lst_game, lst_player_1, lst_player_2 = to_deal([], 1)
+# display_game(1, lst_game, [], [], 1, lst_player_1)
