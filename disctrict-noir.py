@@ -73,7 +73,7 @@ def init_game():
     
     # tuple contenant la liste des cartes trahison du paquet
     trahison = (-1, -1, -1, -2, -2, -2, -2, -3, -3)
-    
+
     # dictionnaire permettant de connaitre le code couleur de la carte en fonction de sa valeur
     color_soutien = {
         5 : 32,
@@ -306,10 +306,10 @@ def get_group_cards(lst_collecting_cards):
     for i in lst_collecting_cards:
         # Si les cartes sont différentes des cartes cités on les ajoute au dictionnaire
         if i != "Mairie" and i != "Docs" and i != "Commissariat":
-            lst_group_cards.append(lst_collecting_cards)
+            # lst_group_cards.append(lst_collecting_cards)
             if i in lst_group_cards :
                 # Si la valeur de la carte a déjà été inséré dans le dictionnaire, on incrémente sa quantité
-                lst_group_cards[lst_collecting_cards] += 1
+                lst_group_cards[i] += 1
                 
             # Sinon on l'ajoute dans le dictionnaire
             else : 
@@ -339,27 +339,52 @@ score_player_2 : int
 def get_scoring(group_cards_1, group_cards_2):
     score_player_1 = 0
     score_player_2 = 0
+    print(group_cards_1)
+    print(group_cards_2)
 
     # SOUTIEN (cartes de 5 à 8) : La majorité marque un nombre de points égal au chiffre représenté sur la carte SOUTIEN 
     # En cas d'égalité aucun joueur ne remporte les points
-    
+    for i in range(5,8) :
+        if i in group_cards_1 :
+            if i in group_cards_2 :
+                if group_cards_1[i] > group_cards_2[i] :
+                    score_player_1 += i
+                elif group_cards_1[i] < group_cards_2[i] :
+                    score_player_2 += i
+            else :
+                score_player_1 += i
+        elif i in group_cards_2 :
+            score_player_2 += i
 
     # SOUTIEN (cartes de 5 à 8) : 4 SOUTIENS différents repporte 5 points
     # Calcul pour le Joueur 1
+    if (5 in group_cards_1) and (6 in group_cards_1) and (7 in group_cards_1) and (8 in group_cards_1) :
+        score_player_1 += 5 * min(group_cards_1[5], group_cards_1[6], group_cards_1[7], group_cards_1[8])
     
     # Calcul pour le Joueur 2
+    if (5 in group_cards_2) and (6 in group_cards_2) and (7 in group_cards_2) and (8 in group_cards_2) :
+        score_player_2 += 5 * min(group_cards_2[5], group_cards_2[6], group_cards_2[7], group_cards_2[8])
 
     # ALLIANCE et TRAHISON : Additionner et soustraire leur valeur
-
+    alliance = (2, 2, 2, 2, 3, 3, 4)
+    trahison = (-1, -1, -1, -2, -2, -2, -2, -3, -3)
+    
+    for i in alliance :
         # ALLIANCE Joueur 1
-        
+        if i in group_cards_1 :
+            score_player_1 += i * group_cards_1[i]
         # ALLIANCE Joueur 2
-        
+        if i in group_cards_2 :
+            score_player_2 += i * group_cards_2[i]
     
+    for i in trahison :
         # TRAHISON Joueur 1
-    
+        if i in group_cards_1 :
+            score_player_1 += i * group_cards_1[i]
         # TRAHISON Joueur 2
-
+        if i in group_cards_2 :
+            score_player_2 += i * group_cards_2[i]
+            
     return score_player_1, score_player_2
 
 """Retourne le vainqueur
@@ -381,6 +406,8 @@ Returns
     Retourn 1 si le joueur 1 remporte la partie et 2 si le joueur 2 remporte la partie
 """
 def get_winner(score_player_1, score_player_2, group_cards_1, group_cards_2):
+    print(f"Score joueur 1 : {score_player_1}")
+    print(f"Score joueur 2 : {score_player_2}")
     # Le score du joueur 1 est supérieur au score du joueur 2 => le joueur 1 gagne
     if score_player_1 > score_player_2 :
         end_game(1)
@@ -454,7 +481,6 @@ for x in range(1, 5) :
 
     # Remettre la drapeau take des players False
     players["take_player_1"], players["take_player_2"] = False, False
-print('fin')
 #-------------------- Fin de partie ----------------
 # regrouper les cartes des joueurs pour simplifier le calcul des points
 group_cards_1 = get_group_cards(players["lst_collecting_cards_1"])
