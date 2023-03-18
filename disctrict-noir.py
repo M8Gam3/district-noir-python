@@ -456,7 +456,7 @@ for x in range(1, 5) :
 
     # Distribution des cartes pour chaque manche
     lst_game, players["lst_player_1"], players["lst_player_2"] = to_deal(lst_game, x)
-
+    players["take_player_1"], players["take_player_2"] = False, False
     # Boucler tant que les joueurs possèdent encore des cartes en main et qu'ils n'ont pas tous les 2 pris de cartes sur la table
     while (players["lst_player_1"] == [] and players["lst_player_2"] == [] and players["take_player_1"] != False and players["take_player_2"] != False) == False :
         
